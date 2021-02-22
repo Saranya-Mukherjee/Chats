@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "560237540724",
+    "firebase_url": "https://chats-2ac35-default-rtdb.firebaseio.com",
+    "project_id": "chats-2ac35",
+    "storage_bucket": "chats-2ac35.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560237540724:android:5aa17b6fb5e101d7f46821",
+        "android_client_info": {
+          "package_name": "com.putin.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560237540724-03udrnuen2kk03hq7jkag5oum020av1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPHGprD1nXHYxlQeK_5d7Sys_Ddt8uVgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560237540724-03udrnuen2kk03hq7jkag5oum020av1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560237540724:android:cf0b39227dc6a8eaf46821",
+        "android_client_info": {
+          "package_name": "com.putin.chats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560237540724-03udrnuen2kk03hq7jkag5oum020av1e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPHGprD1nXHYxlQeK_5d7Sys_Ddt8uVgw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560237540724-03udrnuen2kk03hq7jkag5oum020av1e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
