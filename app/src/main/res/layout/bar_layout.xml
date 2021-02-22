@@ -3,6 +3,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:title="Register"
     android:background="@color/teal_700">
 
 </androidx.appcompat.widget.Toolbar>
