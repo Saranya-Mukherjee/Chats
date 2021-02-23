@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,11 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Registration");
+        getSupportActionBar().setLogo(R.drawable.ic_launcher_foreground);
 
         uname = findViewById(R.id.uname);
         email = findViewById(R.id.email);
@@ -59,6 +65,8 @@ public class Registration extends AppCompatActivity {
 
     public void register(String username, String email, String password) {
 
+        Toast.makeText(Registration.this, "Working on it...", Toast.LENGTH_LONG).show();
+
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -79,7 +87,8 @@ public class Registration extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Intent intent = new Intent(Registration.this, MainActivity.class);
+                                        Toast.makeText(Registration.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(Registration.this, Login.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
@@ -88,7 +97,8 @@ public class Registration extends AppCompatActivity {
                             });
 
                         } else {
-                            Toast.makeText(Registration.this, "Registration Unsuccessful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(Registration.this, "Registration Unsuccessful.\nPlease Try Again.", Toast.LENGTH_LONG).show();
+                            uname.setText("");
                         }
                     }
                 });

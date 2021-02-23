@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:onClick="signup"
     tools:context=".Registration">
 
-    <!--    <include-->
-    <!--        android:id="@+id/toolbar"-->
-    <!--        layout="@layout/bar_layout"/>-->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/bar_layout" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingTop="16dp">
@@ -56,32 +60,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@color/teal_700"
+            android:backgroundTint="@color/teal_700"
             android:onClick="doRegister"
-            android:text="REGISTER"
+            android:text="Register"
             android:textSize="18sp"
             android:textStyle="bold" />
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/editTextTextPersonName"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:ems="10"-->
-        <!--            android:inputType="textPersonName"-->
-        <!--            android:text="Name" />-->
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/editTextTextEmailAddress"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:ems="10"-->
-        <!--            android:inputType="textEmailAddress" />-->
-
-        <!--        <EditText-->
-        <!--            android:id="@+id/editTextTextPassword"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:ems="10"-->
-        <!--            android:inputType="textPassword" />-->
     </LinearLayout>
 </RelativeLayout>
