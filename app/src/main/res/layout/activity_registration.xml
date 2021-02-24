@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:onClick="signup"
+    android:background="@color/teal_200"
     tools:context=".Registration">
 
     <include
@@ -28,6 +28,8 @@
             android:fontFamily="sans-serif"
             android:gravity="center_horizontal"
             android:text="Create A New Account"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -37,14 +39,29 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="UserName"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:met_floatingLabel="normal" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/email"
+            android:id="@+id/text_send"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="E-Mail"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            app:met_floatingLabel="normal" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/pno"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:met_floatingLabel="normal" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -53,6 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="Password"
+            android:inputType="textPassword"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:met_floatingLabel="normal" />
 
         <Button
@@ -63,6 +83,17 @@
             android:backgroundTint="@color/teal_700"
             android:onClick="doRegister"
             android:text="Register"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/teal_700"
+            android:onClick="login"
+            android:text="Already Have an Account?"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>

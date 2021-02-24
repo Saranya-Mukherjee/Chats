@@ -7,9 +7,30 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseUser firebaseuser;
+    DatabaseReference ref;
+
+    @Override
+    protected void onStart() {
+
+        firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseuser != null) {
+            Intent intent = new Intent(MainActivity.this, Loged.class);
+            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Welcome");
-        getSupportActionBar().setLogo(R.drawable.ic_launcher_foreground);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
     }
 

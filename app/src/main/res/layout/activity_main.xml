@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="@color/teal_200"
     tools:context=".MainActivity">
 
     <include
@@ -27,6 +29,7 @@
             android:fontFamily="sans-serif"
             android:gravity="center_horizontal"
             android:text="Welcome to\nBFDM"
+            android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -47,6 +50,7 @@
                 android:backgroundTint="@color/teal_700"
                 android:onClick="login"
                 android:text="Login"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -61,6 +65,7 @@
                 android:backgroundTint="@color/teal_700"
                 android:onClick="signup"
                 android:text="Sign up"
+                android:textColor="@color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>

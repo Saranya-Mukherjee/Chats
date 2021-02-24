@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public class Registration extends AppCompatActivity {
 
-    MaterialEditText uname,email,password;
+    MaterialEditText uname, email, password, phone;
 
     FirebaseAuth auth;
     DatabaseReference ref;
@@ -37,11 +37,12 @@ public class Registration extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Registration");
-        getSupportActionBar().setLogo(R.drawable.ic_launcher_foreground);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         uname = findViewById(R.id.uname);
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.text_send);
         password = findViewById(R.id.pass);
+        phone = findViewById(R.id.pno);
 
         auth = FirebaseAuth.getInstance();
 
@@ -52,18 +53,19 @@ public class Registration extends AppCompatActivity {
         String un = Objects.requireNonNull(uname.getText()).toString();
         String em = Objects.requireNonNull(email.getText()).toString();
         String pass = Objects.requireNonNull(password.getText()).toString();
+        String ph = Objects.requireNonNull(phone.getText()).toString();
 
-        if ((TextUtils.isEmpty(em)) || (TextUtils.isEmpty(un)) || (TextUtils.isEmpty(pass))) {
+        if ((TextUtils.isEmpty(em)) || (TextUtils.isEmpty(un)) || (TextUtils.isEmpty(ph)) || (TextUtils.isEmpty(pass))) {
             Toast.makeText(Registration.this, "All Fields need to be filled.", Toast.LENGTH_SHORT).show();
         } else if (pass.length() < 6) {
             Toast.makeText(Registration.this, "Password should be at least of 6 characters..", Toast.LENGTH_SHORT).show();
         } else {
-            register(un, em, pass);
+            register(un, em, pass, ph);
         }
 
     }
 
-    public void register(String username, String email, String password) {
+    public void register(String username, String email, String password, String phone) {
 
         Toast.makeText(Registration.this, "Working on it...", Toast.LENGTH_LONG).show();
 
@@ -82,6 +84,7 @@ public class Registration extends AppCompatActivity {
                             hashmap.put("id", uid);
                             hashmap.put("username", username);
                             hashmap.put("imageURL", "default");
+                            hashmap.put("phone", phone);
 
                             ref.setValue(hashmap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -104,5 +107,13 @@ public class Registration extends AppCompatActivity {
                 });
 
     }
+
+    public void login(View view) {
+        Intent intent = new Intent(Registration.this, Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
 
 }

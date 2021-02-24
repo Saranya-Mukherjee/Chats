@@ -32,9 +32,9 @@ public class Login extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
-        getSupportActionBar().setLogo(R.drawable.ic_launcher_foreground);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
-        email = findViewById(R.id.email);
+        email = findViewById(R.id.text_send);
         password = findViewById(R.id.pass);
 
         auth = FirebaseAuth.getInstance();
@@ -44,7 +44,9 @@ public class Login extends AppCompatActivity {
 
     public void signup(View view) {
         Intent intent = new Intent(Login.this, Registration.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     public void authorise(View view) {
