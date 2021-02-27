@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GroupsFragment extends Fragment {
 
@@ -64,7 +65,7 @@ public class GroupsFragment extends Fragment {
         ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                pno = snapshot.child("phone").getValue().toString();
+                pno = Objects.requireNonNull(snapshot.child("phone").getValue()).toString();
             }
 
             @Override

@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ public class Loged extends AppCompatActivity {
 
     CircleImageView dp;
     TextView uname;
+    ImageView logo;
 
     FirebaseUser firebaseUser;
     DatabaseReference ref;
@@ -56,6 +59,10 @@ public class Loged extends AppCompatActivity {
         dp = findViewById(R.id.dp);
         uname = findViewById(R.id.uname);
 
+        logo = findViewById(R.id.logo);
+        TabLayout tabLayout = findViewById(R.id.tab);
+        ViewPager viewPager = findViewById(R.id.viewPager);
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
 
@@ -65,6 +72,10 @@ public class Loged extends AppCompatActivity {
                 User user = snapshot.getValue(User.class);
                 assert user != null;
                 uname.setText(user.getUsername());
+                toolbar.setVisibility(View.VISIBLE);
+                tabLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
+                logo.setVisibility(View.GONE);
                 if (user.getImageURL().equals("default")) {
                     dp.setImageResource(R.mipmap.ic_launcher);
                 } else {
@@ -77,9 +88,6 @@ public class Loged extends AppCompatActivity {
 
             }
         });
-
-        TabLayout tabLayout = findViewById(R.id.tab);
-        ViewPager viewPager = findViewById(R.id.viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new ChatsFragment(), "Chats");

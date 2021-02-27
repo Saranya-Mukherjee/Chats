@@ -50,7 +50,7 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.ViewHolder> 
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessagesActivity.class);
                 intent.putExtra("userid", "GGG:" + group.getName());
-                intent.putExtra("grpid", group.getName());
+                intent.putExtra("grpid", group.getId());
                 context.startActivity(intent);
             }
         });
