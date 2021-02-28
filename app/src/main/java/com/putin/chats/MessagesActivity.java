@@ -2,7 +2,6 @@ package com.putin.chats;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -47,7 +46,11 @@ public class MessagesActivity extends AppCompatActivity {
 
     MaterialEditText text_send;
 
+    public String user = "";
+
     boolean first = true;
+
+    HashMap<String, String> people = new HashMap<>();
 
     boolean grp = false;
     String receiver_id = "";
@@ -81,6 +84,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+        user = firebaseUser.getUid();
 
         Intent intent = getIntent();
         String uid = intent.getStringExtra("userid");
@@ -146,6 +150,12 @@ public class MessagesActivity extends AppCompatActivity {
         }
     }
 
+    public void isNamePresent(String id) {
+
+        String name = people.get(id);
+
+    }
+
     public void send_msg(String sender, String message, String receiver) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
@@ -167,51 +177,64 @@ public class MessagesActivity extends AppCompatActivity {
     public void read_chats(String user_id, String id, String imageURL) {
 
         chats = new ArrayList<>();
+        messageAdapter = new MessageAdapter(MessagesActivity.this, chats, imageURL, grp);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats").child(firebaseUser.getUid()).child(id);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chats.clear();
-                for (int n = 0; n < 20; n++) {
-                    Chat chat = new Chat(user_id, id, "", "none");
-                    chats.add(chat);
-                }
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if ((chat.getReceiver().equals(id) && chat.getSender().equals(user_id)) ||
-                            (chat.getReceiver().equals(user_id) && chat.getSender().equals(id))) {
+                if (chats.size() == 0) {
+//                    for (int n = 0; n < 20; n++) {
+//                        Chat chat = new Chat(user_id, id, "", "none");
+//                        chats.add(chat);
+//                    }
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        assert chat != null;
+//                        if ((chat.getReceiver().equals(id))||(chat.getReceiver().equals(user_id))) {
+//                        }
                         chats.add(chat);
                     }
-                }
-                messageAdapter = new MessageAdapter(MessagesActivity.this, chats, imageURL, grp);
-                recyclerview.setAdapter(messageAdapter);
-                recyclerview.setVisibility(View.VISIBLE);
-                findViewById(R.id.imageView).setVisibility(View.GONE);
-                Log.d("auth", "error");
-                if (first) {
-                    int pos = messageAdapter.getItemCount() - 30;
-                    if (pos < 0) {
-                        pos = 0;
-                    }
-                    linearLayoutManager.scrollToPositionWithOffset(pos, 0);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
-                        }
-                    }, 100);
-//                    new Refresh().execute();
-                    first = false;
-                }
-                recyclerview.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    if (bottom < oldBottom) {
+                    recyclerview.setAdapter(messageAdapter);
+                    if (first) {
+//                        int pos = messageAdapter.getItemCount() - 30;
+//                        if (pos < 0) {
+//                            pos = 0;
+//                        }
+//                        linearLayoutManager.scrollToPositionWithOffset(pos, 0);
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+//                            }
+//                        }, 100);
                         linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+                        first = false;
                     }
-                });
-                recyclerview.setVisibility(View.VISIBLE);
-                findViewById(R.id.imageView).setVisibility(View.GONE);
+                    recyclerview.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                        linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+                    });
+                    messageAdapter.notifyDataSetChanged();
+                    recyclerview.setVisibility(View.VISIBLE);
+                    findViewById(R.id.imageView).setVisibility(View.GONE);
+                } else {
+//                    Log.d("auth","else");
+                    int cnt = 1;
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Log.d("auth", Integer.toString(cnt));
+                        Log.d("auth", Integer.toString((chats.size() - 20)));
+                        if (cnt++ > chats.size()) {
+                            Chat chat = dataSnapshot.getValue(Chat.class);
+                            assert chat != null;
+//                            Log.d("auth",Integer.toString(cnt));
+//                            Log.d("auth",Integer.toString(chats.size()-20));
+//                            if ((chat.getReceiver().equals(id))||(chat.getReceiver().equals(user_id))) {
+//                            }
+                            chats.add(chat);
+                        }
+                    }
+                    messageAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -225,47 +248,62 @@ public class MessagesActivity extends AppCompatActivity {
     public void read_grp_chats(String user_id, String id, String imageURL) {
 
         chats = new ArrayList<>();
+        messageAdapter = new MessageAdapter(MessagesActivity.this, chats, imageURL, grp);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Chats_Grp").child(id);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                chats.clear();
-                for (int n = 0; n < 20; n++) {
-                    Chat chat = new Chat(user_id, id, "", "none");
-                    chats.add(chat);
-                }
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Chat chat = dataSnapshot.getValue(Chat.class);
-                    assert chat != null;
-                    if ((chat.getReceiver().equals(id))) {
-                        chats.add(chat);
-                    }
-                }
-                messageAdapter = new MessageAdapter(MessagesActivity.this, chats, imageURL, grp);
-                recyclerview.setAdapter(messageAdapter);
-                if (first) {
-                    int pos = messageAdapter.getItemCount() - 30;
-                    if (pos < 0) {
-                        pos = 0;
-                    }
-                    linearLayoutManager.scrollToPositionWithOffset(pos, 0);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+                if (chats.size() == 0) {
+//                    for (int n = 0; n < 20; n++) {
+//                        Chat chat = new Chat(user_id, id, "", "none");
+//                        chats.add(chat);
+//                    }
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        Chat chat = dataSnapshot.getValue(Chat.class);
+                        assert chat != null;
+                        if ((chat.getReceiver().equals(id))) {
+                            chats.add(chat);
                         }
-                    }, 100);
-//                    new Refresh().execute();
-                    first = false;
-                }
-                recyclerview.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    if (bottom < oldBottom) {
-                        linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
                     }
-                });
-                recyclerview.setVisibility(View.VISIBLE);
-                findViewById(R.id.imageView).setVisibility(View.GONE);
+                    recyclerview.setAdapter(messageAdapter);
+                    if (first) {
+//                        int pos = messageAdapter.getItemCount() - 30;
+//                        if (pos < 0) {
+//                            pos = 0;
+//                        }
+//                        linearLayoutManager.scrollToPositionWithOffset(pos, 0);
+//                        new Handler().postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+//                            }
+//                        }, 100);
+                        linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+                        first = false;
+                    }
+                    recyclerview.addOnLayoutChangeListener((view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                        linearLayoutManager.scrollToPositionWithOffset(messageAdapter.getItemCount() - 1, 0);
+                    });
+                    messageAdapter.notifyDataSetChanged();
+                    recyclerview.setVisibility(View.VISIBLE);
+                    findViewById(R.id.imageView).setVisibility(View.GONE);
+                } else {
+//                    Log.d("auth","else");
+                    int cnt = 1;
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                        Log.d("auth",Integer.toString(cnt));
+//                        Log.d("auth",Integer.toString((chats.size()-20)));
+                        if (cnt++ > chats.size()) {
+                            Chat chat = dataSnapshot.getValue(Chat.class);
+                            assert chat != null;
+                            if ((chat.getReceiver().equals(id))) {
+                                chats.add(chat);
+                            }
+                        }
+                    }
+                    messageAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override

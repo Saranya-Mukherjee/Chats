@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.util.Objects;
@@ -23,6 +24,22 @@ public class Login extends AppCompatActivity {
     MaterialEditText email, password;
 
     FirebaseAuth auth;
+
+    FirebaseUser firebaseuser;
+
+    @Override
+    protected void onStart() {
+
+        firebaseuser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseuser != null) {
+            Intent intent = new Intent(Login.this, Loged.class);
+            startActivity(intent);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
+
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +51,7 @@ public class Login extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
 //        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
-        email = findViewById(R.id.text_send);
+        email = findViewById(R.id.email);
         password = findViewById(R.id.pass);
 
         auth = FirebaseAuth.getInstance();

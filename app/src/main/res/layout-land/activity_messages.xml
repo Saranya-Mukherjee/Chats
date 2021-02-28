@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/r_lay"
         android:layout_below="@id/appBarLayout"
-        android:background="@drawable/wall1"
+        android:background="@drawable/wallpaper"
         android:visibility="gone"
         android:windowSoftInputMode="adjustResize" />
 
@@ -64,7 +64,7 @@
         android:background="@color/teal_700">
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/text_send"
+            android:id="@+id/email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"

@@ -34,7 +34,7 @@
             android:textStyle="bold" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/text_send"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"

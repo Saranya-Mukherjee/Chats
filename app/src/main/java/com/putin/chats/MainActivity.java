@@ -1,8 +1,10 @@
 package com.putin.chats;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Welcome");
 //        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+
+        TextView textView = findViewById(R.id.textView);
+        textView.setText("Welcome To\n" + textView.getText().toString());
 
     }
 

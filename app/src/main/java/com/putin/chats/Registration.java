@@ -40,7 +40,7 @@ public class Registration extends AppCompatActivity {
 //        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
 
         uname = findViewById(R.id.uname);
-        email = findViewById(R.id.text_send);
+        email = findViewById(R.id.email);
         password = findViewById(R.id.pass);
         phone = findViewById(R.id.pno);
 
@@ -59,6 +59,7 @@ public class Registration extends AppCompatActivity {
             Toast.makeText(Registration.this, "All Fields need to be filled.", Toast.LENGTH_SHORT).show();
         } else if (pass.length() < 6) {
             Toast.makeText(Registration.this, "Password should be at least of 6 characters..", Toast.LENGTH_SHORT).show();
+            password.setText("");
         } else {
             register(un, em, pass, ph);
         }
@@ -91,7 +92,7 @@ public class Registration extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
                                         Toast.makeText(Registration.this, "Registration Successful.", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(Registration.this, Login.class);
+                                        Intent intent = new Intent(Registration.this, Loged.class);
                                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                         finish();
@@ -101,7 +102,6 @@ public class Registration extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(Registration.this, "Registration Unsuccessful.\nPlease Try Again.", Toast.LENGTH_LONG).show();
-                            uname.setText("");
                         }
                     }
                 });

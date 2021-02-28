@@ -1,6 +1,8 @@
 package com.putin.chats;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,6 +41,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     int t = 2;
     boolean grp;
     boolean done = false;
+    HashMap<String, String> people = new HashMap<>();
+    SharedPreferences sharedpreferences;
 
     public MessageAdapter(Context context, List<Chat> chats, String img, boolean grp) {
         this.chats = chats;
@@ -46,6 +51,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.grp = grp;
 //        this.init = init;
         inits = new ArrayList<>();
+    }
+
+
+    public boolean makePerson(String id) {
+        String name = people.get(id);
+        if (name == null) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(id);
+
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String name = Objects.requireNonNull(snapshot.child("username").getValue()).toString();
+                    people.put(id, name.split(" ")[0]);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @NonNull
@@ -61,23 +90,30 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             t = 0;
         }
 
-        make_inits();
-
         return new MessageAdapter.ViewHolder(view);
     }
 
+    public void addInits(String init) {
+        inits.add(init);
+    }
+
     public void make_inits() {
-        if (!done) {
+        done = inits.size() == 0;
+//        Log.d("auth", Integer.toString(inits.size()));
+        if (chats.size() > inits.size()) {
+            final int[] cnt = {1};
             for (Chat c : chats) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Users").child(c.getSender());
-
-                Log.d("pass", c.getSender());
 
                 ref.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String name = Objects.requireNonNull(snapshot.child("username").getValue()).toString();
+                        Log.d("auth", name);
+                        Log.d("auth", c.getMessage());
+                        Log.d("auth", Integer.toString(cnt[0]));
                         inits.add(name.split(" ")[0]);
+                        cnt[0]++;
                     }
 
                     @Override
@@ -86,7 +122,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                     }
                 });
             }
-            done = true;
         }
     }
 
@@ -95,14 +130,33 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         Chat chat = chats.get(position);
         holder.msg.setText(chat.getMessage());
-        if (inits.size() < chats.size()) {
-            done = false;
-            make_inits();
-        }
+        boolean is = makePerson(chat.getSender());
         if (holder.sender != null) {
-            if (inits.size() > position) {
-                holder.sender.setText(inits.get(position));
+            //                if() {
+//                    new Handler().postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            Log.d("auth","wrong one.");
+//                            holder.sender.setText(inits.get(position));
+//                        }
+//                    }, 100);
+//                }
+//                else{
+//                    holder.sender.setText(inits.get(position));
+//                }
+            if (is) {
+                holder.sender.setText(people.get(chat.getSender()));
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("auth", "new one.");
+                        holder.sender.setText(people.get(chat.getSender()));
+                        Log.d("auth", people.toString());
+                    }
+                }, 100);
             }
+//                Log.d("auth",inits.get(position));
         }
 //        holder.msg.setText(chat.getMessage());
 //        if (imageURL.equals("default")) {

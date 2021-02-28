@@ -4,6 +4,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/teal_700"
     tools:context=".UsersFragment">
 
 
@@ -11,5 +12,6 @@
         android:id="@+id/users_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/teal_700" />
+        android:background="@color/teal_700"
+        android:visibility="visible" />
 </FrameLayout>

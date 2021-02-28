@@ -115,7 +115,11 @@ public class UsersFragment extends Fragment {
                     assert user != null;
                     assert firebaseUser != null;
                     if (!user.getId().equals(firebaseUser.getUid())) {
-                        users.add(user);
+                        if (!user.getUsername().equals("Renaissance Mukherjee")) {
+                            users.add(user);
+                        } else {
+                            users.add(user);
+                        }
                     }
                 }
                 userAdapter = new UserAdapter(getContext(), users);

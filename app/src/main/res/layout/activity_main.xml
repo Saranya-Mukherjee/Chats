@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:gravity="center_horizontal"
-            android:text="Welcome to\nBFDM"
+            android:text="@string/app_name"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="bold" />
